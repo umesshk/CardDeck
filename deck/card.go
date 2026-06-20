@@ -1,6 +1,9 @@
 package deck
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 //go:generate stringer -type=Suit,Rank
 
@@ -54,7 +57,7 @@ func (c Card) String() string {
 	return fmt.Sprintf("%s of %ss", c.Rank.String(), c.Suit.String())
 }
 
-func CreateDeck() []Card {
+func CreateDeck(opts ...func([]Card) []Card) []Card {
 
 	var cards []Card
 
@@ -64,6 +67,27 @@ func CreateDeck() []Card {
 		}
 	}
 
+	for _, opt := range opts {
+		cards = opt(cards)
+	}
+
 	return cards
 
+}
+
+func DefaultDeckSort(cards []Card) []Card {
+
+	sort.Slice(cards, Less(cards))
+	return cards
+
+}
+
+func Less(cards []Card) func(i, j int) bool {
+	return func(i int, j int) bool {
+		return absRank(cards[i]) < absRank(cards[j])
+	}
+}
+
+func absRank(c Card) int {
+	return int(c.Suit)*int(maxCard) + int(c.Rank)
 }

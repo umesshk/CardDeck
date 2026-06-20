@@ -2,7 +2,9 @@ package deck
 
 import (
 	"fmt"
+	"math/rand"
 	"sort"
+	"time"
 )
 
 //go:generate stringer -type=Suit,Rank
@@ -82,6 +84,13 @@ func DefaultDeckSort(cards []Card) []Card {
 
 }
 
+func Sort(less func(card []Card) func(i, j int) bool) func([]Card) []Card {
+	return func(cards []Card) []Card {
+		sort.Slice(cards, less(cards))
+		return cards
+	}
+}
+
 func Less(cards []Card) func(i, j int) bool {
 	return func(i int, j int) bool {
 		return absRank(cards[i]) < absRank(cards[j])
@@ -90,4 +99,17 @@ func Less(cards []Card) func(i, j int) bool {
 
 func absRank(c Card) int {
 	return int(c.Suit)*int(maxCard) + int(c.Rank)
+}
+
+func Shuffle(cards []Card) []Card {
+	ret := make([]Card, len(cards))
+
+	r := rand.New(rand.NewSource(time.Now().Unix()))
+
+	for i, j := range r.Perm(len(cards)) {
+		ret[i] = cards[j]
+	}
+
+	return ret
+
 }

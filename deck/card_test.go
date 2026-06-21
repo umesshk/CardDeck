@@ -53,3 +53,19 @@ func TestJoker(t *testing.T) {
 	}
 
 }
+
+func TestFilter(t *testing.T) {
+
+	filter := func(card Card) bool {
+		return card.Rank == Two || card.Rank == Three
+	}
+
+	cards := CreateDeck(FilterCards(filter))
+
+	for _, c := range cards {
+		if (c.Rank == Two) || (c.Rank == Three) {
+			t.Errorf("Expected Rank TWO and THREE to be filtered out")
+		}
+	}
+
+}

@@ -113,3 +113,20 @@ func Shuffle(cards []Card) []Card {
 	return ret
 
 }
+
+func Jokers(n int) func([]Card) []Card {
+
+	return func(cards []Card) []Card {
+
+		var ret = make([]Card, len(cards))
+
+		for i := range n {
+			ret = append(ret, Card{
+				Rank: Rank(i),
+				Suit: Joker,
+			})
+
+		}
+		return ret
+	}
+}

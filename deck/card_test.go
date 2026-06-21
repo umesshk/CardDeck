@@ -5,8 +5,6 @@ import (
 	"testing"
 )
 
-var t *testing.T
-
 func ExampleCard() {
 	fmt.Println(Card{Rank: Ace, Suit: Heart})
 
@@ -39,4 +37,19 @@ func TestShuffle(t *testing.T) {
 	if cards[0] == ShuffledCards[0] {
 		t.Error("Cards Not Shuffled ")
 	}
+}
+
+func TestJoker(t *testing.T) {
+	cards := CreateDeck(Jokers(3))
+	count := 0
+	for _, c := range cards {
+		if c.Suit == Joker {
+			count++
+		}
+	}
+
+	if count != 3 {
+		t.Errorf("Wrong Number of Jokers appended wanted %d , got %d ", 3, count)
+	}
+
 }

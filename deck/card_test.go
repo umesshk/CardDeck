@@ -69,3 +69,14 @@ func TestFilter(t *testing.T) {
 	}
 
 }
+
+func TestDeck(t *testing.T) {
+	cards := CreateDeck(Deck(3))
+
+	exp := 13 * 4 * 3
+
+	if len(cards) != exp {
+		t.Errorf("Expected length of cards %d got %d ", exp, len(cards))
+	}
+
+}

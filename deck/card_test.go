@@ -2,6 +2,7 @@ package deck
 
 import (
 	"fmt"
+	"math/rand"
 	"testing"
 )
 
@@ -31,11 +32,21 @@ func TestDefaulDeckSort(t *testing.T) {
 }
 
 func TestShuffle(t *testing.T) {
-	cards := CreateDeck()
+
+	shuffleRand = rand.New(rand.NewSource(0))
+
+	org := CreateDeck()
+	first := org[40]
+	second := org[35]
+
 	ShuffledCards := CreateDeck(Shuffle)
 
-	if cards[0] == ShuffledCards[0] {
-		t.Error("Cards Not Shuffled ")
+	if ShuffledCards[0] != first {
+		t.Errorf("Expected the first card to be %s got %s ", first, ShuffledCards[0])
+	}
+
+	if ShuffledCards[1] != second {
+		t.Errorf("Expected the second card to be %s got %s ", second, ShuffledCards[0])
 	}
 }
 
